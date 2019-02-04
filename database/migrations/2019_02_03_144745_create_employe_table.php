@@ -13,11 +13,11 @@ class CreateEmployeTable extends Migration
      */
     public function up()
     {
-        Schema::create('employe', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('position');
-            $table->integer('department_id');
+            $table->string('picture_location')->nullable();
             $table->double('salary',15,2);
             $table->bigInteger('boss_id')->nullable(); // if no boss, then null
             $table->timestamps();
@@ -31,6 +31,6 @@ class CreateEmployeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employe');
+        Schema::dropIfExists('employees');
     }
 }

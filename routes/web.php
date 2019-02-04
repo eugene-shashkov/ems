@@ -18,3 +18,20 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(function(){
+    
+    // get records
+    Route::get('/employe', function(){
+        return App\Employe::paginate(5);
+    });
+
+    //add new employe
+    Route::post('/employe/add', function(){
+        return array('update');
+    });
+
+    // 
+
+
+});
