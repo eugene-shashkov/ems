@@ -7,10 +7,11 @@
             <div class="card">
                 <div class="card-header">Tree View For Employes</div>
                 <div class="card-body">
-                    Welcome
+                    <ul class="tree"></ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="/employees"></script>
 @endsection

@@ -1,37 +1,21 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
+use App\Employees;
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('tree');
+})->name('tree');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/employees','TreeController@get_tree');
+Route::get('/employees/{boss_id}','TreeController@get_employee');
+
+Route::get('/search','EmployeesController@search');
+
 Route::middleware(['auth'])->group(function(){
-    
-    // get records
-    Route::get('/employe', function(){
-        return App\Employe::paginate(5);
-    });
-
     //add new employe
-    Route::post('/employe/add', function(){
-        return array('update');
+    Route::post('/employee/add', function(){
+        return array('add');
     });
-
-    // 
-
-
 });
