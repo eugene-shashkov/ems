@@ -3,12 +3,15 @@ var employees_table_selector = '.employees_table tbody';
 var last_page;
 var data;
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     // console.log(get_search_result());;
-
     get_search_result();
     $("#search_btn").click(function (e) {
-
-        e.preventDefault();
+      
         $('#pagination').empty();
         $('#pagination').removeData("twbs-pagination");
         $('#pagination').unbind("page");
@@ -16,8 +19,36 @@ $(document).ready(function () {
     });
     $("#create_hired").val(set_today_into_date_inp());
     $("#date_to").val(set_today_into_date_inp());
+    $(".tabs-page").click(function(e){
+        e.preventDefault();
+        $(".tabs-page").removeClass("active");
+        $(this).addClass("active");
+        $(".tabs-content").hide();
+        var show_selector=$(this).attr("data-display-class");
+        $(show_selector).show();
+    });
 
-
+    $("#submit_new_employee").click(function(e){
+        // e.preventDefault();
+        var create_name=$("#create_name");
+        var create_position=$("#create_position");
+        var create_salary=$("#create_salary");
+        var create_hired=$('#create_hired');
+        $.ajax({
+            method:"post",
+            type:"json",
+            url:"/create/employee",
+            data:{
+                name:create_name,
+                position:create_position,
+                salary:create_salary,
+                hired:create_hired
+            },
+            success:function(r){
+                console.log(r);
+            }
+        });
+    });
 });
 
 var get_search_result = function (page = 1) {
@@ -52,7 +83,7 @@ var get_search_result = function (page = 1) {
                 //console.log(each_employee);
                 $(employees_table_selector).append(
                     '<tr data-id="' + each_employee['id'] + '">' +
-                    '<td title="Name"><img ></td>' +
+                    '<td title="Name"><img src="/images/default.jpg" width="32" height="32" ></td>' +
                     '<td title="Name"><input type="text" value="' + each_employee['employee_name'] + '" class="form-control" ></td>' +
                     '<td title="Position"><input type="text" value="' + each_employee['position'] + '" class="form-control"></td>' +
                     '<td title="Salary"><input type="number" step="1" value="' + each_employee['salary'] + '"  class="form-control" ></td>' +
@@ -60,8 +91,6 @@ var get_search_result = function (page = 1) {
                     '<td title="Boss"><input type="text" value="' + each_employee['boss_name'] + '" class="form-control"></td>' +
                     '</tr>');
             });
-            
-
         }
     });
 
@@ -109,4 +138,8 @@ var pagination = function (last_page) {
 
 var updater=function(){
     
+}
+
+var create_employee=function(){
+  
 }

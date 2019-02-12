@@ -12082,3 +12082,8 @@ a.text-dark:focus {
   user-select: none;
 }
 
+img {
+  cursor: pointer;
+  border-radius: 40px;
+}
+
