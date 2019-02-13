@@ -121,12 +121,12 @@ $(document).ready(function () {
     var show_selector = $(this).attr("data-display-class");
     $(show_selector).show();
   });
-  $("#submit_new_employee").click(function (e) {
-    // e.preventDefault();
-    var create_name = $("#create_name");
-    var create_position = $("#create_position");
-    var create_salary = $("#create_salary");
-    var create_hired = $('#create_hired');
+  $(".create-new-employee").click(function (e) {
+    e.preventDefault();
+    var create_name = $("#create_name").val();
+    var create_position = $("#create_position").val();
+    var create_salary = $("#create_salary").val();
+    var create_hired = $('#create_hired').val();
     $.ajax({
       method: "post",
       type: "json",

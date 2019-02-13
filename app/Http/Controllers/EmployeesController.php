@@ -10,6 +10,7 @@ class EmployeesController extends Controller
 {
     public function create_employee()
     {
+        return array('employee created');
     }
     
     public function search(Request $request)
@@ -20,7 +21,7 @@ class EmployeesController extends Controller
         $date_to=strtotime($request->input('date_to'));
         $salary_from=(int)$request->input('salary_from');
         $salary_to=(int)$request->input('salary_to');
-
+        
         $select_join=DB::table('employees as e1')->select(
             'e1.id',
             'e1.name as employee_name',

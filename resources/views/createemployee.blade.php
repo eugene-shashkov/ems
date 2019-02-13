@@ -30,7 +30,7 @@
 </div>
 <div style="height:30px;"></div>
 <div class="text-center">
-    <a id="submit_new_employee" href="#"  class="btn btn-lg btn-primary">Create Employee</a>
+    <a  href="#"  class="btn btn-lg btn-primary create-new-employee">Create Employee</a>
 </div>
 <hr>
 <div style="height:40px;"></div>

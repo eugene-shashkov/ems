@@ -8,8 +8,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/employees','TreeController@get_tree');
+Route::get('/employees','TreeController@get_bosses');
 Route::get('/employees/{boss_id}','TreeController@get_employee');
+
+Route::get('/create/employee','EmployeesController@create_employee');
 
 Route::get('/search','EmployeesController@search');
 

@@ -8,7 +8,7 @@ use App\EmployeeRelations;
 // use Illuminate\Support\Facades\DB;
 class TreeController extends Controller
 {
-    public function get_tree()
+    public function get_bosses()
     {
         return Employees::select('id','name','position','salary')->where('boss_id','=',NULL)->get();
     }
