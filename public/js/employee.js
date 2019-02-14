@@ -106,6 +106,7 @@ $(document).ready(function () {
 
   get_search_result();
   $("#search_btn").click(function (e) {
+    e.preventDefault();
     $('#pagination').empty();
     $('#pagination').removeData("twbs-pagination");
     $('#pagination').unbind("page");
@@ -121,24 +122,22 @@ $(document).ready(function () {
     var show_selector = $(this).attr("data-display-class");
     $(show_selector).show();
   });
-  $(".create-new-employee").click(function (e) {
+  $("#create_emplloyee").submit(function (e) {
     e.preventDefault();
-    var create_name = $("#create_name").val();
-    var create_position = $("#create_position").val();
-    var create_salary = $("#create_salary").val();
-    var create_hired = $('#create_hired').val();
+    var form = $("#create_emplloyee");
+    var data = getFormData(form);
     $.ajax({
       method: "post",
       type: "json",
       url: "/create/employee",
-      data: {
-        name: create_name,
-        position: create_position,
-        salary: create_salary,
-        hired: create_hired
-      },
+      data: data,
       success: function success(r) {
         console.log(r);
+        alert("Position Created");
+        document.getElementById("create_emplloyee").reset();
+      },
+      error: function error(xhr, status) {
+        alert('Error status: ' + status);
       }
     });
   });
@@ -217,6 +216,15 @@ var pagination = function pagination(last_page) {
 var updater = function updater() {};
 
 var create_employee = function create_employee() {};
+
+function getFormData(form) {
+  var unindexed_array = form.serializeArray();
+  var indexed_array = {};
+  $.map(unindexed_array, function (n, i) {
+    indexed_array[n['name']] = n['value'];
+  });
+  return indexed_array;
+}
 
 /***/ }),
 

@@ -15,5 +15,5 @@ mix.sass('resources/sass/app.scss', 'public/css');
 
 mix.js('resources/js/tree.js', 'public/js');
 mix.js('resources/js/employee.js', 'public/js');
-mix.js('resources/js/pagination.js', 'public/js');
+
 

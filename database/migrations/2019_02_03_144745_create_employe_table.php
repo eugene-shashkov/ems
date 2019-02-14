@@ -13,7 +13,6 @@ class CreateEmployeTable extends Migration
      */
     public function up()
     {
-        $client = new GearmanClient();
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name',700);

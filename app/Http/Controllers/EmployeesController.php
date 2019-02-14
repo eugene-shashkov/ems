@@ -8,9 +8,13 @@ use DB;
 
 class EmployeesController extends Controller
 {
-    public function create_employee()
+    public function create_employee(Request $request, Employees $emp)
     {
-        return array('employee created');
+        $emp->name=$request->input('name');
+        $emp->position=$request->input('position');
+        $emp->salary=$request->input('salary');
+        $emp->hired=strtotime($request->input('hired'));
+        $emp->save();
     }
     
     public function search(Request $request)
@@ -29,17 +33,15 @@ class EmployeesController extends Controller
             'e1.position',
             'e1.salary',
             'e1.hired'
-        )->join('employees as e2', 'e2.id', '=', 'e1.boss_id');
-            
+        )->leftJoin('employees as e2', 'e2.id', '=', 'e1.boss_id');
 
         $get_data=array(
             'all'=>function ($sj, $r) {
-                return $sj->where(function ($query) use ($r) {
-                    $query->where('e1.name', 'like', '%'.$r.'%')->
+                return $sj->where('e1.name', 'like', '%'.$r.'%')->
                     orWhere('e1.position', 'like', '%'.$r.'%')->
                     orWhere('e1.salary', 'like', '%'.$r.'%')->
                     orWhere('e2.name', 'like', '%'.$r.'%');
-                });
+                
             },
             'name'=>function ($sj, $r) {
                 return $sj->where('e1.name', 'like', '%'.$r.'%');
