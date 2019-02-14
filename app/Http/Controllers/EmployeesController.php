@@ -15,6 +15,7 @@ class EmployeesController extends Controller
         $emp->salary=$request->input('salary');
         $emp->hired=strtotime($request->input('hired'));
         $emp->save();
+
     }
     
     public function search(Request $request)
@@ -39,7 +40,6 @@ class EmployeesController extends Controller
             'all'=>function ($sj, $r) {
                 return $sj->where('e1.name', 'like', '%'.$r.'%')->
                     orWhere('e1.position', 'like', '%'.$r.'%')->
-                    orWhere('e1.salary', 'like', '%'.$r.'%')->
                     orWhere('e2.name', 'like', '%'.$r.'%');
                 
             },

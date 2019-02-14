@@ -13,7 +13,7 @@
                     <option value="all">All</option>
                     <option value="name">Name</option>
                     <option value="position">Position</option>
-                    <option value="salary">Salary</option>
+                    {{-- <option value="salary">Salary</option> --}}
                     <option value="boss">Boss</option>
                 </select>
             </div>
