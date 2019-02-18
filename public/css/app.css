@@ -12087,3 +12087,7 @@ img {
   border-radius: 40px;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+

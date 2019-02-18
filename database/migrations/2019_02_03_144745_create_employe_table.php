@@ -15,16 +15,19 @@ class CreateEmployeTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name',700);
-            $table->string('position',700);
+            $table->string('name',99);
+            $table->string('position',99);
             $table->bigInteger('hired');
             $table->double('salary',15,2);
-            $table->bigInteger('boss_id')->nullable(); // if no boss, then null
+            $table->bigInteger('boss_id')->unsigned()->nullable(); // if no boss, then null
             $table->timestamps();
-            $table->index('name');
-            $table->index('position');
-            $table->index('hired');
-            $table->index('salary');
+
+            $table->index(array('name','position'));
+            $table->index(array('hired','salary'));
+            $table->index(array('id','boss_id'));
+            $table->index('boss_id');
+
+            $table->foreign('boss_id')->references('id')->on('employees');
         });
     }
 

@@ -13,5 +13,4 @@
         </div>
     </div>
 </div>
-<script src="/employees"></script>
 @endsection

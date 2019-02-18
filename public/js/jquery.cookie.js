@@ -86,14 +86,25 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./resources/js/jquery.cookie.js":
+/*!***************************************!*\
+  !*** ./resources/js/jquery.cookie.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/var/www/ems/resources/js/jquery.cookie.js'");
+
+/***/ }),
+
 /***/ 2:
-/*!******************************************!*\
-  !*** multi ./resources/js/pagination.js ***!
-  \******************************************/
+/*!*********************************************!*\
+  !*** multi ./resources/js/jquery.cookie.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-!(function webpackMissingModule() { var e = new Error("Cannot find module '/var/www/ems/resources/js/pagination.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+module.exports = __webpack_require__(/*! /var/www/ems/resources/js/jquery.cookie.js */"./resources/js/jquery.cookie.js");
 
 
 /***/ })

@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $employees_count=100;
-        $number_of_tree_levels=6;
+        $employees_count=100000;
+        $number_of_tree_levels=10;
 
         DB::table('employees')->delete();
         

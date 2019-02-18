@@ -26,12 +26,12 @@
 <div class="form-group row">
     <label for="create_hired" class="col-sm-2 col-form-label">Hired Date</label>
     <div class="col-sm-10">
-        <input form="create_emplloyee" name="hired"  type="date" class="form-control" placeholder="Hired" required>
+        <input id="create_employee_hired" form="create_emplloyee" name="hired"  type="date" class="form-control" placeholder="Hired" required>
     </div>
 </div>
 <div style="height:30px;"></div>
 <div class="text-center">
-    <input form="create_emplloyee" type="submit" class="btn btn-lg btn-primary create-new-employee" value="Create Employee" required>
+    <input  form="create_emplloyee" type="submit" class="btn btn-lg btn-primary create-new-employee" value="Create Employee" required>
 </div>
 
 <hr>

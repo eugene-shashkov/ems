@@ -102,8 +102,7 @@ $(document).ready(function () {
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
-  }); // console.log(get_search_result());;
-
+  });
   get_search_result();
   $("#search_btn").click(function (e) {
     e.preventDefault();
@@ -141,6 +140,10 @@ $(document).ready(function () {
       }
     });
   });
+  $("#create_employee_hired").val(set_today_into_date_inp());
+  $('body').click(function (e) {
+    $(".bosses-div").empty();
+  });
 });
 
 var get_search_result = function get_search_result() {
@@ -174,8 +177,31 @@ var get_search_result = function get_search_result() {
       $(employees_table_selector).empty();
       $.each(data, function (index, each_employee) {
         //console.log(each_employee);
-        $(employees_table_selector).append('<tr data-id="' + each_employee['id'] + '">' + '<td title="Name"><img src="/images/default.jpg" width="32" height="32" ></td>' + '<td title="Name"><input type="text" value="' + each_employee['employee_name'] + '" class="form-control" ></td>' + '<td title="Position"><input type="text" value="' + each_employee['position'] + '" class="form-control"></td>' + '<td title="Salary"><input type="number" step="1" value="' + each_employee['salary'] + '"  class="form-control" ></td>' + '<td title="YYYY-MM-DD"><input type="date" value="' + unix_to_date(each_employee['hired']) + '" class="form-control"></td>' + '<td title="Boss"><input type="text" value="' + each_employee['boss_name'] + '" class="form-control"></td>' + '</tr>');
+        var boss_name = each_employee['boss_name'];
+
+        if (boss_name == null) {
+          boss_name = '';
+        }
+
+        var id = each_employee['id'];
+        $(employees_table_selector).append('<tr id="tr' + id + '" data-id="' + id + '">' + '<td title="Name"><img src="/images/default.jpg" width="32" height="32" ></td>' + '<td title="Name"><input type="text" value="' + each_employee['employee_name'] + '" data-id="' + id + '" data-field-name="name" class="form-control update_field"   ></td>' + '<td title="Position"><input type="text" value="' + each_employee['position'] + '" data-id="' + id + '" data-field-name="position" class="form-control update_field"></td>' + '<td title="Salary"><input type="number" step="1" value="' + each_employee['salary'] + '" data-id="' + id + '" data-field-name="salary"  class="form-control update_field" ></td>' + '<td title="YYYY-MM-DD"><input type="date" value="' + unix_to_date(each_employee['hired']) + '" data-id="' + id + '" data-field-name="hired" class="form-control update_field"></td>' + '<td title="Boss" ><input type="text" value="' + boss_name + '" class="form-control boss_name" data-id="' + id + '"><div class="bosses-div boss_div_' + id + '" ></div></td>' + '<td title="Delete Position" ><a class="delete-position btn btn-outline-dark cursor-pointer" data-id="' + id + '" href="#" ><i class="fas fa-trash-alt"  ></i></a></td>' + '</tr>');
       });
+      $(".update_field").change(function () {
+        var field = $(this).attr("data-field-name");
+        var id = $(this).attr("data-id");
+        var value = $(this).val(); // console.log(field,id,value);
+
+        update(field, id, value);
+      });
+      $(".update_field").keyup(function () {
+        var field = $(this).attr("data-field-name");
+        var id = $(this).attr("data-id");
+        var value = $(this).val(); // console.log(field,id,value);
+
+        update(field, id, value);
+      });
+      change_boss();
+      delete_position();
     }
   });
 };
@@ -204,8 +230,6 @@ var pagination = function pagination(last_page) {
     totalPages: last_page,
     visiblePages: 6,
     initiateStartPageClick: false,
-    // next: 'Next',
-    // prev: 'Prev',
     onPageClick: function onPageClick(event, page) {
       console.log("page_to_show " + page);
       get_search_result(page);
@@ -213,9 +237,96 @@ var pagination = function pagination(last_page) {
   });
 };
 
-var updater = function updater() {};
+var update = function update(field, position_id, value) {
+  $.ajax({
+    method: "put",
+    type: "json",
+    data: {
+      'position_id': position_id,
+      'field': field,
+      'value': value
+    },
+    url: "/update/employee",
+    success: function success(r) {
+      console.log(r);
+    }
+  });
+};
 
-var create_employee = function create_employee() {};
+var change_boss = function change_boss() {
+  $(".boss_name").keyup(function (e) {
+    var boss_name_to_search = $(this).val();
+    var employee_id = $(this).attr("data-id");
+    var boss_div_class = '.boss_div_' + employee_id;
+    var boss_input = this;
+    $(boss_div_class).empty();
+    console.log(boss_name_to_search);
+    $.ajax({
+      method: 'get',
+      type: 'json',
+      url: '/employees/get_bosses/' + boss_name_to_search,
+      success: function success(r) {
+        console.log(r);
+        var bosses_string = '<ul class="list-group" style="position:absolute">';
+        $.each(r, function (index, value) {
+          bosses_string += '<li class="list-group-item cursor-pointer" data-boss-id="' + value['id'] + '" data-boss-name="' + value['name'] + '" >' + value['name'] + '</li>';
+        });
+        bosses_string += '</ul>';
+        console.log(bosses_string);
+        $(boss_div_class).append(bosses_string);
+        $(boss_div_class + " .list-group-item").hover(function () {
+          $(this).addClass('active');
+        }, function () {
+          $(this).removeClass('active');
+        });
+        $(boss_div_class + " .list-group-item").click(function (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          $(boss_input).val($(this).attr("data-boss-name"));
+          var new_boss_id = $(this).attr("data-boss-id");
+          var data = {
+            employee_id: employee_id,
+            boss_id: new_boss_id
+          };
+          $.ajax({
+            method: 'put',
+            type: 'json',
+            data: data,
+            url: '/update/employee/boss',
+            success: function success(r) {
+              console.log(r);
+            },
+            error: function error(xhr, status) {
+              alert('Error status: ' + status);
+            }
+          });
+          $(".bosses-div").empty();
+        });
+      }
+    });
+  });
+};
+
+var delete_position = function delete_position() {
+  $(".delete-position").click(function (e) {
+    e.preventDefault();
+    var position_id = $(this).attr("data-id");
+    var tr_selector = "#tr" + position_id;
+    $.ajax({
+      method: 'delete',
+      data: {
+        position_id: position_id
+      },
+      url: '/delete/employee',
+      success: function success(r) {
+        $(tr_selector).remove();
+      },
+      error: function error(_error, code) {
+        alert("Error: " + code);
+      }
+    });
+  });
+};
 
 function getFormData(form) {
   var unindexed_array = form.serializeArray();
@@ -225,6 +336,8 @@ function getFormData(form) {
   });
   return indexed_array;
 }
+
+;
 
 /***/ }),
 

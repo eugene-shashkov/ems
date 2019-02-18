@@ -4,16 +4,14 @@
 <div style="height:30px;"></div>
 <div class="form-group row">
     <label for="search_req" class="col-sm-2 col-form-label">Search</label>
-   
     <div class="col-sm-10">
         <div class="input-group ">
-            <input id="search_req" class="form-control" autocomplete="false" placeholder="Search" title="Search" type="text">
+            <input id="search_req" class="form-control" value="{{$last_request}}" autocomplete="false" placeholder="Search" title="Search" type="text">
             <div class="input-group-append">
                 <select id="search_opt" class="form-control" title="Search By">
                     <option value="all">All</option>
                     <option value="name">Name</option>
                     <option value="position">Position</option>
-                    {{-- <option value="salary">Salary</option> --}}
                     <option value="boss">Boss</option>
                 </select>
             </div>
@@ -62,6 +60,7 @@
             <th scope="col">Salary</th>
             <th scope="col">Hired</th>
             <th scope="col">Boss</th>
+            <th scope="col">Delete</th>
         </tr>
     </thead>
     <tbody>
