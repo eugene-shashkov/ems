@@ -7,5 +7,3 @@ Also this app implements relationship view between all employees and make smart 
 by Eugene Shashkov
 
 https://github.com/fonjeekay/ems.git
-
-MIT License
